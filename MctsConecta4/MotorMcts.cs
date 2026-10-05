@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace MctsConecta4;
 
@@ -123,7 +124,27 @@ public sealed class MotorMcts
         //   · un hijo con 0 visitas vale infinito (double.PositiveInfinity), que es
         //     lo que obliga a probar todos los hijos una vez.
         //   · la constante C está en el campo _c.
-        throw new NotImplementedException("TODO 2 · MejorHijoUct");
+
+        Nodo mejorNodo = null;
+        double mejorindice = double.NegativeInfinity;
+
+        foreach (Nodo hijo in nodo.Hijos)
+        {
+            Console.WriteLine("Evaluating child node");
+            double valor = nodo.Recompensa / hijo.Visitas + _c * Math.Sqrt(Math.Log(nodo.Visitas) / hijo.Visitas);
+            if (valor > mejorindice)
+            {
+                mejorindice = valor;
+                mejorNodo = hijo;
+            }
+
+        }
+
+        return mejorNodo;
+
+        throw new Exception("No suitable child found for UCT selection");
+
+
     }
 
     // ── 2 · EXPANSIÓN ────────────────────────────────────────────────────────
@@ -184,7 +205,6 @@ public sealed class MotorMcts
 
         return currentNodo.Estado.Resultado(nodo.JugadorQueMovio);
 
-        //MAYBE RETARD
 
         throw new NotImplementedException("TODO 4 · Simular");
     }
@@ -210,8 +230,7 @@ public sealed class MotorMcts
             resultado = 1 - resultado;
         }
 
-
-        throw new NotImplementedException("TODO 5 · Retropropagar");
+        
     }
 
     // ── La jugada que se juega de verdad ─────────────────────────────────────
