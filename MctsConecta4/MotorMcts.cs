@@ -130,11 +130,13 @@ public sealed class MotorMcts
 
         foreach (Nodo hijo in nodo.Hijos)
         {
+            if (hijo.Visitas == 0)
+                return hijo;   // índice infinito
 
-            double valor = nodo.Recompensa / hijo.Visitas + _c * Math.Sqrt(Math.Log(nodo.Visitas+1) / hijo.Visitas);
+            double valor = hijo.Recompensa / hijo.Visitas
+                         + _c * Math.Sqrt(Math.Log(nodo.Visitas) / hijo.Visitas);
             if (valor > mejorindice)
             {
-                
                 mejorindice = valor;
                 mejorNodo = hijo;
             }
@@ -164,11 +166,12 @@ public sealed class MotorMcts
         //   3. añadirlo a nodo.Hijos y devolverlo.
         // UN hijo, no todos: los que no se simulen no aportan ningún dato.
 
-        if (nodo.EstaExpandidoDelTodo || nodo.MovimientosPendientes.Count == 0)
+        if (nodo.Estado.EsTerminal() || nodo.MovimientosPendientes.Count == 0)
             return nodo;
 
-        int movimiento = _rnd.Next(nodo.MovimientosPendientes.Count);
-        nodo.MovimientosPendientes.RemoveAt(movimiento);
+        int indice = _rnd.Next(nodo.MovimientosPendientes.Count);
+        int movimiento = nodo.MovimientosPendientes[indice];
+        nodo.MovimientosPendientes.RemoveAt(indice);
 
         Nodo hijo = new Nodo(nodo.Estado.Aplicar(movimiento), nodo, movimiento);
         nodo.Hijos.Add(hijo);
@@ -191,20 +194,17 @@ public sealed class MotorMcts
         // 3. Devolver estado.Resultado(puntoDeVista): 1 gana, 0 pierde, 0,5 tablas.
         // Aquí NO va ninguna heurística: es exactamente lo que MCTS no necesita.
 
-        if (nodo.Estado.EsTerminal())
-            return nodo.Estado.Resultado(nodo.JugadorQueMovio);
+        int puntoDeVista = nodo.JugadorQueMovio != 0 ? nodo.JugadorQueMovio
+                                                     : nodo.Estado.JugadorEnTurno;
+        IJuego estado = nodo.Estado;
 
-        Nodo currentNodo = nodo;
-
-        while (!currentNodo.Estado.EsTerminal())
+        while (!estado.EsTerminal())
         {
-            var movimientosLegales = currentNodo.Estado.MovimientosLegales();
-            int movimientoAleatorio = movimientosLegales[_rnd.Next(movimientosLegales.Count)];
-            var nuevoEstado = currentNodo.Estado.Aplicar(movimientoAleatorio);
-            currentNodo = new Nodo(nuevoEstado, currentNodo, movimientoAleatorio);
+            var legales = estado.MovimientosLegales();
+            estado = estado.Aplicar(legales[_rnd.Next(legales.Count)]);
         }
 
-        return currentNodo.Estado.Resultado(nodo.JugadorQueMovio);
+        return estado.Resultado(puntoDeVista);
 
 
         throw new NotImplementedException("TODO 4 · Simular");
@@ -224,13 +224,13 @@ public sealed class MotorMcts
         // de arriba. Si no se invierte, no da error — sólo hace que la IA juegue bien
         // un turno y regale el siguiente.
 
-        while (nodo.Padre != null)
+        Nodo? actual = nodo;
+        while (actual != null)
         {
-            nodo.Padre.Recompensa += resultado;
-            nodo.Visitas++;
-            nodo = nodo.Padre;
-
+            actual.Visitas++;
+            actual.Recompensa += resultado;
             resultado = 1 - resultado;
+            actual = actual.Padre;
         }
 
         
