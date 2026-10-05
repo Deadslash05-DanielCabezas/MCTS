@@ -63,6 +63,9 @@ public sealed class MotorMcts
             // Mientras esto no esté, el parámetro msMaximos no hace nada y el
             // experimento E4 no se puede medir.
 
+            if (msMaximos > 0 && reloj.ElapsedMilliseconds > msMaximos)
+                break;
+
             Iteracion(raiz);
             hechas++;
         }
@@ -97,7 +100,11 @@ public sealed class MotorMcts
         // expandido del todo (nodo.EstaExpandidoDelTodo), bajar al mejor hijo
         // según UCT: nodo = MejorHijoUct(nodo).
         // Cuando ya no se cumpla, devolver el nodo donde te has quedado.
-        throw new NotImplementedException("TODO 1 · Seleccionar");
+
+        while (!nodo.Estado.EsTerminal() && nodo.EstaExpandidoDelTodo)
+            nodo = MejorHijoUct(nodo);
+
+        return nodo;
     }
 
     /// <summary>
