@@ -134,7 +134,17 @@ public sealed class MotorMcts
         //   2. crear el hijo: new Nodo(nodo.Estado.Aplicar(movimiento), nodo, movimiento);
         //   3. añadirlo a nodo.Hijos y devolverlo.
         // UN hijo, no todos: los que no se simulen no aportan ningún dato.
-        throw new NotImplementedException("TODO 3 · Expandir");
+
+        if (nodo.EstaExpandidoDelTodo || nodo.MovimientosPendientes.Count == 0)
+            return nodo;
+
+        int movimiento = _rnd.Next(nodo.MovimientosPendientes.Count);
+        nodo.MovimientosPendientes.RemoveAt(movimiento);
+
+        Nodo hijo = new Nodo(nodo.Estado.Aplicar(movimiento), nodo, movimiento);
+        nodo.Hijos.Add(hijo);
+
+        return hijo;
     }
 
     // ── 3 · SIMULACIÓN ───────────────────────────────────────────────────────
