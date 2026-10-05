@@ -196,6 +196,12 @@ public sealed class MotorMcts
         // de arriba. Si no se invierte, no da error — sólo hace que la IA juegue bien
         // un turno y regale el siguiente.
 
+        while (nodo.Padre != null)
+        {
+            nodo.Padre.Recompensa += resultado;
+            nodo = nodo.Padre;
+            resultado = 1 - resultado;
+        }
 
 
         throw new NotImplementedException("TODO 5 · Retropropagar");
