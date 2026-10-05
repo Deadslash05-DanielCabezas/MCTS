@@ -151,6 +151,24 @@ public sealed class MotorMcts
         //    movimiento legal elegido al azar con _rnd.
         // 3. Devolver estado.Resultado(puntoDeVista): 1 gana, 0 pierde, 0,5 tablas.
         // Aquí NO va ninguna heurística: es exactamente lo que MCTS no necesita.
+
+        if (nodo.Estado.EsTerminal())
+            return nodo.Estado.Resultado(nodo.JugadorQueMovio);
+
+        Nodo currentNodo = nodo;
+
+        while (!currentNodo.Estado.EsTerminal())
+        {
+            var movimientosLegales = currentNodo.Estado.MovimientosLegales();
+            int movimientoAleatorio = movimientosLegales[_rnd.Next(movimientosLegales.Count)];
+            var nuevoEstado = currentNodo.Estado.Aplicar(movimientoAleatorio);
+            currentNodo = new Nodo(nuevoEstado, currentNodo, movimientoAleatorio);
+        }
+
+        return currentNodo.Estado.Resultado(nodo.JugadorQueMovio);
+
+        //MAYBE RETARD
+
         throw new NotImplementedException("TODO 4 · Simular");
     }
 
@@ -167,6 +185,9 @@ public sealed class MotorMcts
         // Los niveles alternan de jugador: lo que es victoria en uno es derrota en el
         // de arriba. Si no se invierte, no da error — sólo hace que la IA juegue bien
         // un turno y regale el siguiente.
+
+
+
         throw new NotImplementedException("TODO 5 · Retropropagar");
     }
 

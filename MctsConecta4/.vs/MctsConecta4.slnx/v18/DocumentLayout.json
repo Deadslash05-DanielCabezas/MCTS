@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Alumno\\Documents\\GitHub\\MCTS\\MctsConecta4\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0A1F473A-6BC6-3B5A-AA93-0E82813F856D}|MctsConecta4.csproj|c:\\users\\alumno\\documents\\github\\mcts\\mctsconecta4\\motormcts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A1F473A-6BC6-3B5A-AA93-0E82813F856D}|MctsConecta4.csproj|solutionrelative:motormcts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A1F473A-6BC6-3B5A-AA93-0E82813F856D}|MctsConecta4.csproj|c:\\users\\alumno\\documents\\github\\mcts\\mctsconecta4\\nodo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A1F473A-6BC6-3B5A-AA93-0E82813F856D}|MctsConecta4.csproj|solutionrelative:nodo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A1F473A-6BC6-3B5A-AA93-0E82813F856D}|MctsConecta4.csproj|c:\\users\\alumno\\documents\\github\\mcts\\mctsconecta4\\mctsconecta4.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{0A1F473A-6BC6-3B5A-AA93-0E82813F856D}|MctsConecta4.csproj|solutionrelative:mctsconecta4.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Nodo.cs",
+              "DocumentMoniker": "C:\\Users\\Alumno\\Documents\\GitHub\\MCTS\\MctsConecta4\\Nodo.cs",
+              "RelativeDocumentMoniker": "Nodo.cs",
+              "ToolTip": "C:\\Users\\Alumno\\Documents\\GitHub\\MCTS\\MctsConecta4\\Nodo.cs",
+              "RelativeToolTip": "Nodo.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAjwCAAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-05T16:29:38.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MotorMcts.cs",
+              "DocumentMoniker": "C:\\Users\\Alumno\\Documents\\GitHub\\MCTS\\MctsConecta4\\MotorMcts.cs",
+              "RelativeDocumentMoniker": "MotorMcts.cs",
+              "ToolTip": "C:\\Users\\Alumno\\Documents\\GitHub\\MCTS\\MctsConecta4\\MotorMcts.cs",
+              "RelativeToolTip": "MotorMcts.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAwwLsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-05T16:27:35.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MctsConecta4",
+              "DocumentMoniker": "C:\\Users\\Alumno\\Documents\\GitHub\\MCTS\\MctsConecta4\\MctsConecta4.csproj",
+              "RelativeDocumentMoniker": "MctsConecta4.csproj",
+              "ToolTip": "C:\\Users\\Alumno\\Documents\\GitHub\\MCTS\\MctsConecta4\\MctsConecta4.csproj",
+              "RelativeToolTip": "MctsConecta4.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-10-05T16:27:34.07Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
