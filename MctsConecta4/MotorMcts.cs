@@ -130,10 +130,11 @@ public sealed class MotorMcts
 
         foreach (Nodo hijo in nodo.Hijos)
         {
-            Console.WriteLine("Evaluating child node");
-            double valor = nodo.Recompensa / hijo.Visitas + _c * Math.Sqrt(Math.Log(nodo.Visitas) / hijo.Visitas);
+
+            double valor = nodo.Recompensa / hijo.Visitas + _c * Math.Sqrt(Math.Log(nodo.Visitas+1) / hijo.Visitas);
             if (valor > mejorindice)
             {
+                
                 mejorindice = valor;
                 mejorNodo = hijo;
             }
@@ -226,7 +227,9 @@ public sealed class MotorMcts
         while (nodo.Padre != null)
         {
             nodo.Padre.Recompensa += resultado;
+            nodo.Visitas++;
             nodo = nodo.Padre;
+
             resultado = 1 - resultado;
         }
 
