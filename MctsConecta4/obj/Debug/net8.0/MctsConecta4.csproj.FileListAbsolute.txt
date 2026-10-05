@@ -1,0 +1,15 @@
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\bin\Debug\net8.0\MctsConecta4.exe
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\bin\Debug\net8.0\MctsConecta4.deps.json
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\bin\Debug\net8.0\MctsConecta4.runtimeconfig.json
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\bin\Debug\net8.0\MctsConecta4.dll
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\bin\Debug\net8.0\MctsConecta4.pdb
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\MctsConecta4.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\MctsConecta4.AssemblyInfoInputs.cache
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\MctsConecta4.AssemblyInfo.cs
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\MctsConecta4.csproj.CoreCompileInputs.cache
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\MctsConecta4.sourcelink.json
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\MctsConecta4.dll
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\refint\MctsConecta4.dll
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\MctsConecta4.pdb
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\MctsConecta4.genruntimeconfig.cache
+C:\Users\Alumno\Documents\GitHub\MCTS\MctsConecta4\obj\Debug\net8.0\ref\MctsConecta4.dll
