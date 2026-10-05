@@ -211,7 +211,26 @@ public sealed class MotorMcts
         // la hoja de la sesión 3).
         // Caso borde: si la raíz no tiene hijos —presupuesto ridículo o posición
         // terminal—, devolver el primer movimiento legal, o -1 si no hay ninguno.
-        throw new NotImplementedException("TODO 6 · MejorMovimiento");
+
+        float maxVisitas = float.NegativeInfinity;
+        int mejorMovimiento = -1;
+
+        foreach (Nodo hijo in raiz.Hijos)
+        {
+            if (hijo.Visitas > maxVisitas)
+            {
+                maxVisitas = hijo.Visitas;
+                mejorMovimiento = hijo.Movimiento;
+            }
+        }
+
+        if (mejorMovimiento == -1)
+        {
+            IReadOnlyList<int> movimientosLegales = raiz.Estado.MovimientosLegales();
+            return movimientosLegales.Count > 0 ? movimientosLegales[0] : -1;
+        }
+
+        return mejorMovimiento;
     }
 
     /// <summary>Estadísticas de la raíz, para poder imprimirlas y depurar.</summary>
