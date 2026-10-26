@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MctsConecta4")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f86db4a699a8676b6601f4b06edb2ae60d4bf2ef")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be392560d0cfa3f41e97e72eec5a93a5a82a60b7")]
 [assembly: System.Reflection.AssemblyProductAttribute("MctsConecta4")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MctsConecta4")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
