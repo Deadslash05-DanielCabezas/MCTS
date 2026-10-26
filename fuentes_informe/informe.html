@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Informe Práctica 1 · MCTS</title>
+<style>
+  @page { size: A4; margin: 12mm 14mm 11mm 14mm; }
+  :root {
+    --ink:#1a1a19; --ink2:#464541; --muted:#6b6a66; --rule:#dddcd6;
+    --accent:#2a78d6; --accent-soft:#eaf2fc; --warm:#eb6834; --tint:#f5f4f0;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Carlito","Calibri",sans-serif; font-size:10.5pt; line-height:1.38; font-variant-ligatures:none; color:var(--ink); background:#fff; }
+  p { margin:0 0 5px; }
+  b { font-weight:700; }
+  code { font-variant-ligatures:none; font-family:"JetBrains Mono",monospace; font-size:7.9pt; background:var(--tint); padding:0 3px; border-radius:3px; }
+
+  /* Cabecera */
+  header { display:grid; grid-template-columns:1fr auto; align-items:end; gap:4px 16px; padding-bottom:6px; border-bottom:2px solid var(--ink); margin-bottom:7px; }
+  .k { font-family:"Inter",sans-serif; font-size:6.8pt; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); grid-column:1 / -1; }
+  h1 { font-family:"Inter",sans-serif; font-weight:700; font-size:15pt; margin:0; letter-spacing:-.01em; }
+  .who { font-family:"Inter",sans-serif; font-size:8.4pt; text-align:right; line-height:1.4; }
+  .meta { grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:3px 14px; font-family:"Inter",sans-serif; font-size:7.4pt; color:var(--ink2); }
+  .meta span::before { content:"▪ "; color:var(--accent); }
+
+  /* Contexto */
+  .intro { background:var(--tint); border-radius:5px; padding:6px 10px; margin-bottom:7px; font-size:9.8pt; }
+  .intro p { margin:0; }
+
+  /* Secciones */
+  section { margin:0 0 8px; }
+  .sh { display:flex; align-items:center; gap:8px; margin:0 0 2px; break-after:avoid; }
+  .badge { font-family:"Inter",sans-serif; font-weight:700; font-size:8.6pt; color:#fff; background:var(--accent); border-radius:4px; padding:1px 6px; }
+  h2 { font-family:"Inter",sans-serif; font-weight:650; font-size:11pt; margin:0; }
+  .q { font-style:italic; color:var(--accent); font-size:10pt; margin:0 0 4px; padding-left:2px; break-after:avoid; }
+
+  .fig { float:right; width:35%; margin:0 0 4px 12px; }
+  .fig img { width:100%; display:block; }
+  .fig figcaption { font-family:"Inter",sans-serif; font-size:6.6pt; color:var(--muted); text-align:center; }
+  .clear { clear:both; }
+  .fig, section.keep { break-inside:avoid; }
+  table.tfloat { float:right; margin:2px 0 4px 14px; }
+
+  .n { font-weight:700; background:var(--accent-soft); border-radius:3px; padding:0 3px; white-space:nowrap; }
+
+  table { border-collapse:collapse; font-family:"Inter",sans-serif; font-size:7.8pt; margin:2px 0 6px; }
+  th, td { padding:2.5px 9px; text-align:right; border-bottom:.6px solid var(--rule); }
+  th:first-child, td:first-child { text-align:left; padding-left:0; }
+  thead th { border-bottom:1.2px solid var(--ink); font-weight:600; }
+  td.hl { font-weight:700; color:var(--accent); }
+
+  ol { margin:2px 0 5px; padding-left:18px; }
+  ol li { margin-bottom:3px; padding-left:2px; }
+  .lbl { font-family:"Inter",sans-serif; font-size:7.6pt; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin:6px 0 2px; }
+
+  .concl { border:1.2px solid var(--accent); border-radius:6px; padding:6px 11px 7px; margin-top:8px; background:var(--accent-soft); break-inside:avoid; }
+  .concl .t { font-family:"Inter",sans-serif; font-weight:700; font-size:10pt; color:var(--accent); margin-bottom:2px; }
+  .concl p { margin:0; }
+  .foot { font-family:"Inter",sans-serif; font-size:6.8pt; color:var(--muted); margin-top:6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="k">Inteligencia Artificial Avanzada (IA4) · Práctica 1 · Curso 2026/2027</div>
+  <h1>Monte Carlo Tree Search sobre Conecta 4 — Informe</h1>
+  <div class="who">Pol Gómez Morales<br>Daniel Cabezas Cappa</div>
+  <div class="meta">
+    <span>Datos: <code>referencia_s42.csv</code></span>
+    <span>Semilla 42 · 40 partidas por punto</span>
+    <span>Máquina: Intel Core i9-14900K · 32 GB DDR5 · Windows 11</span>
+  </div>
+</header>
+
+<div class="intro"><p>Todas las cifras salen de <code>dotnet run -- referencia 40 42</code>. Sólo se ha modificado <code>MotorMcts.cs</code>. Las tres pruebas de humo pasan: <code>traza</code> elige la columna 3 en los seis presupuestos (28,0 % de visitas con 25 simulaciones y 94,7 % con 10.000); <code>duelo 40 2000 4 42</code> da 56,3 % (22-17-1), y MCTS-500 puntúa 100 % contra el aleatorio. E1, E2 y E3 coinciden fila a fila con la tabla de referencia del enunciado. Con 40 partidas, el error típico cerca del 50 % es de unos ±8 puntos, así que no interpretamos diferencias de menos de ~15.</p></div>
+
+<section>
+  <div class="sh"><span class="badge">E1</span><h2>Presupuesto</h2></div>
+  <div class="q">¿Cuándo deja de ser un generador de números aleatorios? ¿Por qué se aplana?</div>
+  <figure class="fig"><img src="graficas/e1.svg" alt="E1"><figcaption>E1 · % de MCTS frente al presupuesto</figcaption></figure>
+  <p>Contra el aleatorio, MCTS gana desde el primer punto (97,5 % con 50 iteraciones y 100 % desde 100). Ese rival no distingue un algoritmo malo de uno bueno. La prueba real es Minimax-4 con heurística: con 50 y 100 iteraciones MCTS saca un <span class="n">2,5 %</span>, es decir, juega a ciegas. Con 200 llega al 15 % y con 500 al 40 %. <b>Con 1.000 iteraciones alcanza el empate técnico (<span class="n">48,8 %</span>, 19-20-1)</b> y desde 2.000 gana más de lo que pierde (56,3 %). Por tanto, el umbral está entre <b>500 y 1.000 simulaciones</b>, que en esta máquina son unos 2–4 ms por jugada.</p>
+  <p>La curva se aplana (56,3 → 61,3 % al pasar de 2.000 a 5.000, por debajo del ruido) por dos razones. La primera es estadística: el error de la media de cada hijo cae como 1/√n, así que duplicar el presupuesto sólo lo reduce un 30 %, y con 2.000 iteraciones la jugada buena ya se lleva la mayoría de las visitas. Las iteraciones extra confirman lo que ya se sabía. La segunda es de sesgo: los <i>rollouts</i> son uniformes, y un jugador aleatorio no sabe tapar una amenaza. Por eso, el valor al que converge cada nodo es el de «jugar al azar desde aquí», no el valor minimax. Más simulaciones afinan esa estimación sesgada, pero no corrigen el sesgo.</p>
+  <div class="clear"></div>
+</section>
+
+<section>
+  <div class="sh"><span class="badge">E2</span><h2>Heurística contra profundidad</h2></div>
+  <div class="q">¿Le sirve al ciego pasar de profundidad 4 a 6?</div>
+  <table class="tfloat">
+    <thead><tr><th>Rival (MCTS-2000)</th><th>prof. 2</th><th>prof. 4</th><th>prof. 6</th></tr></thead>
+    <tbody>
+      <tr><td>Minimax con heurística</td><td>58,8 %</td><td>56,3 %</td><td>23,8 %</td></tr>
+      <tr><td>Minimax ciego</td><td>96,3 %</td><td class="hl">92,5 %</td><td class="hl">92,5 %</td></tr>
+    </tbody>
+  </table>
+  <p><b>No le sirve de nada.</b> Contra el ciego, MCTS saca <span class="n">92,5 %</span> a profundidad 4 y <span class="n">92,5 %</span> a profundidad 6 (36-2-2 en ambos casos): mejora 0 puntos. Contra el rival con heurística, el mismo cambio de profundidad hunde a MCTS de 56,3 % a 23,8 %, lo que supone 32,5 puntos de mejora para el rival. El minimax ciego sólo distingue «gano / pierdo / nada» dentro de su horizonte. Casi todas sus hojas valen 0, así que con 6 capas ve más hojas igual de mudas y sigue eligiendo prácticamente al azar entre las jugadas que no pierden en seguida.</p>
+  <p><b>Buscar más hondo multiplica la calidad de la evaluación, no la sustituye</b>: la profundidad amplifica una buena heurística y no aporta nada si no la hay. MCTS no necesita heurística porque la sustituye por los rollouts, y por eso le gana al ciego a cualquier profundidad.</p>
+</section>
+
+<section>
+  <div class="sh"><span class="badge">E3</span><h2>Constante de exploración</h2></div>
+  <div class="q">¿Qué le pasa con C = 0? ¿Y con C = 4?</div>
+  <figure class="fig"><img src="graficas/e3.svg" alt="E3"><figcaption>E3 · % de MCTS-2000 frente a C</figcaption></figure>
+  <p>Con <b>C = 0</b> MCTS cae al <span class="n">5,0 %</span> (2-38-0). Es el fallo de la <b>explotación pura (avaricia, convergencia prematura)</b>: cada hijo se prueba una vez porque los no visitados valen ∞, y a partir de ahí se baja siempre por el de mejor media. Una jugada que tuvo suerte en su primer rollout se queda todo el presupuesto, y las demás no se vuelven a mirar aunque sean mejores.</p>
+  <p>Con <b>C = 4</b> baja al <span class="n">40,0 %</span>. Es el fallo contrario, la <b>sobreexploración</b>: el término de exploración domina a la media, las visitas se reparten casi por igual entre jugadas buenas y malas, y el árbol no profundiza. Se parece a un Monte Carlo plano que gasta simulaciones en jugadas que ya sabe malas.</p>
+  <p>Entre 0,5 y 2 todo queda entre 56 y 70 %. El 70 % de C = 0,5 es el mejor, pero su diferencia con √2 (56,3 %) no supera el ruido de 40 partidas. La curva tiene la forma esperada: se hunde en los dos extremos y es plana en medio.</p>
+  <div class="clear"></div>
+</section>
+
+<section>
+  <div class="sh"><span class="badge">E4</span><h2>Presupuesto de tiempo</h2></div>
+  <div class="q">Con 16 ms (un frame a 60 fps), ¿lo pondríamos en un juego?</div>
+  <figure class="fig"><img src="graficas/e4.svg" alt="E4"><figcaption>E4 · % de MCTS frente a ms por jugada</figcaption></figure>
+  <table>
+    <thead><tr><th>ms por jugada</th><th>5</th><th>10</th><th>25</th><th>50</th><th>100</th></tr></thead>
+    <tbody>
+      <tr><td>Iteraciones (<code>calibrar 42</code>)</td><td>621</td><td>1.505</td><td>3.410</td><td>5.180</td><td>12.395</td></tr>
+      <tr><td>% contra Minimax-4</td><td>55,0</td><td>52,5</td><td>61,3</td><td>72,5</td><td>65,0</td></tr>
+    </tbody>
+  </table>
+  <p>La curva tiende a crecer (de 55,0 % con 5 ms a 72,5 % con 50 ms), como se espera de un algoritmo <i>anytime</i>, pero no es monótona: 10 ms (52,5 %) queda por debajo de 5 ms, y 100 ms (65,0 %) por debajo de 50 ms. Las dos caídas (2,5 y 7,5 puntos) están dentro del ruido de ±8 puntos de 40 partidas, así que no las interpretamos. Interpolando la calibración entre 10 ms (1.505) y 25 ms (3.410), en <b>16 ms caben <span class="n">≈ 2.300 iteraciones</span></b> en nuestra máquina, medidas en la posición inicial, que es la más cara. La calibración incluida en el propio CSV da algo parecido (1.339 y 3.506, ≈ 2.200). En E1, ese presupuesto corresponde a la fila de <b>2.000 iteraciones: <span class="n">56,3 %</span> contra Minimax-4</b> y 100 % contra el aleatorio. En E4 directamente, 16 ms queda entre el 52,5 % (10 ms) y el 61,3 % (25 ms).</p>
+  <p><b>Sí, lo pondríamos, con matices.</b> En 16 ms MCTS ya gana a un alfa-beta de profundidad 4 con una heurística hecha a mano. Además, es <i>anytime</i>: si el frame se acorta, devuelve la mejor jugada que tenga. Pero en un juego real la IA no dispone del frame entero, porque el render y la lógica también lo usan. Lo razonable es repartir la búsqueda entre varios frames (el rival humano tarda segundos en mover) o lanzarla en un hilo aparte. Con 50 ms, que son 3 frames, sube al 72,5 %.</p>
+  <div class="clear"></div>
+  <div class="lbl">Observaciones sobre nuestros datos</div>
+  <ol>
+    <li><b>E4 rinde más que E1 a iteraciones parecidas.</b> 25 ms (≈ 3.400 iteraciones) da 61,3 %, lo mismo que E1 con 5.000 iteraciones; y 5 ms (≈ 600 iteraciones) da 55,0 %, frente al 40,0 % de E1 con 500. La calibración se mide en la posición inicial; a medida que el tablero se llena, los rollouts son más cortos y en el mismo tiempo caben más iteraciones.</li>
+    <li><b>Nuestra calibración es más baja que la de la máquina de referencia</b> (621 frente a ≈ 1.100 en 5 ms; 12.395 frente a ≈ 18.000 en 100 ms), a pesar de ser un i9-14900K. Una explicación plausible es que <code>dotnet run</code> compila en Debug, pero no lo hemos verificado. Puede explicar en parte que con 100 ms quedemos lejos del rango de referencia (93–99 %), pero no sabemos explicar toda esa diferencia.</li>
+    <li><b>El corte por tiempo se pasa alrededor de 1 ms</b> (5 ms → 6,0 ms reales, 10 → 11,0). La causa es que el TODO 7 compara <code>ElapsedMilliseconds</code> (milisegundos enteros) con <code>&gt;</code>. Usar <code>Elapsed.TotalMilliseconds &gt;= msMaximos</code> sería más estricto, pero lo hemos dejado así para que el CSV entregado corresponda al código entregado.</li>
+  </ol>
+  <p>Como las cifras de E4 dependen del reloj, las tomamos como rangos y no como valores exactos.</p>
+</section>
+
+<div class="concl">
+  <div class="t">Conclusión</div>
+  <p>Usaríamos <b>MCTS</b> cuando no hay una buena función de evaluación, el factor de ramificación es alto o hace falta una respuesta <i>anytime</i> con un presupuesto variable. E2 lo demuestra: sin heurística, el minimax no mejora con la profundidad y MCTS le gana con un 92,5 %. Usaríamos <b>alfa-beta</b> cuando existe una heurística fiable y el juego es táctico y de ramificación baja, con trampas cortas que los rollouts aleatorios no ven. Con heurística y profundidad 6, alfa-beta deja a MCTS-2000 en un 23,8 %. En resumen: el alfa-beta vale lo que vale su heurística, y MCTS vale lo que valen sus simulaciones.</p>
+</div>
+
+<div class="foot">Opcional O4: las tres gráficas se generan desde <code>referencia_s42.csv</code> con <code>graficas.py</code> (Python + matplotlib).</div>
+</body>
+</html>

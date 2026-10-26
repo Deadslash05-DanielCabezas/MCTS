@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ficha de resultados P1</title>
+<style>
+  @page { size: A4; margin: 15mm 16mm 14mm 16mm; }
+  :root { --ink:#0b0b0b; --ink2:#3d3c39; --muted:#6b6a66; --rule:#cfcec9; --head:#efeee9; --accent:#2a78d6; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Liberation Sans",Arial,sans-serif; font-size:9.4pt; line-height:1.35; color:var(--ink); background:#fff; }
+  .k { font-size:7.6pt; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:15pt; margin:2px 0 2px; }
+  .sub { color:var(--ink2); margin-bottom:6px; }
+  .note { font-size:8.4pt; color:var(--ink2); border-left:3px solid var(--accent); padding:3px 8px; margin:6px 0 10px; background:#f6f6f3; }
+  h2 { font-size:11pt; margin:13px 0 4px; border-bottom:1px solid var(--ink); padding-bottom:2px; }
+  table { width:100%; border-collapse:collapse; margin:2px 0 6px; }
+  th, td { border:.6px solid var(--rule); padding:3px 7px; vertical-align:top; }
+  th { background:var(--head); text-align:left; font-weight:bold; }
+  td.v, th.v { text-align:center; }
+  .fill { font-family:"Liberation Mono",monospace; font-size:9pt; }
+  .blank { color:var(--muted); }
+  .qa { margin:4px 0 8px; }
+  .qa .q { font-weight:bold; }
+  .qa .a { margin:2px 0 0 0; padding:3px 8px; border:.6px solid var(--rule); }
+  .avoid { break-inside:avoid; }
+  code { font-variant-ligatures:none; }
+</style>
+</head>
+<body>
+<div class="k">Inteligencia Artificial Avanzada (IA4) · Práctica 1 · Ficha de resultados</div>
+<h1>Práctica 1 — Ficha de resultados</h1>
+<div class="sub">Inteligencia Artificial Avanzada (IA4) · Curso 2026/2027</div>
+<div class="note">Todos los números salen de <b>referencia_s42.csv</b> (semilla 42, 40 partidas por punto), salvo las pruebas de humo, que salen de los modos <code>traza</code> y <code>duelo</code>, y la fila de calibración de E4, que sale de <code>calibrar 42</code> (<code>calibracion_s42.csv</code>).</div>
+
+<h2>Datos</h2>
+<table>
+  <tr><th style="width:46%">Campo</th><th>Valor</th></tr>
+  <tr><td>Alumno/a 1</td><td>Pol Gómez Morales</td></tr>
+  <tr><td>Alumno/a 2</td><td>Daniel Cabezas Cappa</td></tr>
+  <tr><td>Semilla usada</td><td class="fill">42</td></tr>
+  <tr><td>Partidas por punto</td><td class="fill">40</td></tr>
+  <tr><td>Fichero CSV entregado</td><td class="fill">referencia_s42.csv</td></tr>
+  <tr><td>¿Se ha tocado algún fichero además de MotorMcts.cs?</td><td>No. Sólo <code>MotorMcts.cs</code>.</td></tr>
+  <tr><td>Procesador y sistema (E4 depende de la máquina)</td><td>Intel Core i9-14900K · 32 GB DDR5 · Windows 11</td></tr>
+</table>
+
+<h2>Pruebas de humo</h2>
+<table>
+  <tr><th>Prueba</th><th class="v">Resultado esperado</th><th class="v">Lo que sale</th></tr>
+  <tr><td>traza elige la columna 3 en los seis presupuestos</td><td class="v">sí</td><td class="v fill">sí (6 de 6)</td></tr>
+  <tr><td>% de visitas de la columna 3 con 25 simulaciones</td><td class="v">≈ 28 %</td><td class="v fill">28,0 % (7/25)</td></tr>
+  <tr><td>% de visitas de la columna 3 con 10.000 simulaciones</td><td class="v">≈ 95 %</td><td class="v fill">94,7 % (9.466/10.000)</td></tr>
+  <tr><td>duelo 40 2000 4 42</td><td class="v">&gt; 45 %</td><td class="v fill">56,3 % (22-17-1)</td></tr>
+  <tr><td>MCTS-500 contra Aleatorio</td><td class="v">≈ 100 %</td><td class="v fill">100 % (40-0-0)</td></tr>
+</table>
+
+<div class="avoid">
+<h2>E1 · presupuesto de simulaciones</h2>
+<table>
+  <tr><th>Iteraciones</th><th class="v">vs Aleatorio (%)</th><th class="v">vs Minimax-4 (%)</th><th class="v">ms por jugada<br><span style="font-weight:normal">(vs Aleatorio · vs Minimax-4)</span></th></tr>
+  <tr><td>50</td><td class="v fill">97,5</td><td class="v fill">2,5</td><td class="v fill">0,3 · 0,3</td></tr>
+  <tr><td>100</td><td class="v fill">100,0</td><td class="v fill">2,5</td><td class="v fill">0,5 · 0,5</td></tr>
+  <tr><td>200</td><td class="v fill">100,0</td><td class="v fill">15,0</td><td class="v fill">1,0 · 1,0</td></tr>
+  <tr><td>500</td><td class="v fill">100,0</td><td class="v fill">40,0</td><td class="v fill">2,7 · 2,1</td></tr>
+  <tr><td>1.000</td><td class="v fill">100,0</td><td class="v fill">48,8</td><td class="v fill">5,5 · 4,4</td></tr>
+  <tr><td>2.000</td><td class="v fill">100,0</td><td class="v fill">56,3</td><td class="v fill">10,6 · 8,0</td></tr>
+  <tr><td>5.000</td><td class="v fill">100,0</td><td class="v fill">61,3</td><td class="v fill">27,4 · 21,3</td></tr>
+</table>
+<div class="qa"><div class="q">¿A partir de cuántas simulaciones deja de perder contra Minimax-4?</div>
+<div class="a">Con 1.000 iteraciones llega al empate técnico (48,8 %, 19-20-1) y desde 2.000 gana más de lo que pierde (56,3 %, 22-17-1). Con 500 todavía pierde (40,0 %).</div></div>
+</div>
+
+<div class="avoid">
+<h2>E2 · con heurística y sin ella · MCTS-2.000</h2>
+<table>
+  <tr><th>Profundidad del rival</th><th class="v">Minimax con heurística (%)</th><th class="v">Minimax ciego (%)</th><th class="v">Diferencia (puntos)</th></tr>
+  <tr><td>2</td><td class="v fill">58,8</td><td class="v fill">96,3</td><td class="v fill">37,5</td></tr>
+  <tr><td>4</td><td class="v fill">56,3</td><td class="v fill">92,5</td><td class="v fill">36,2</td></tr>
+  <tr><td>6</td><td class="v fill">23,8</td><td class="v fill">92,5</td><td class="v fill">68,7</td></tr>
+</table>
+<div class="qa"><div class="q">¿Cuánto mejora el rival ciego al pasar de profundidad 4 a 6?</div>
+<div class="a">Nada: MCTS saca 92,5 % en ambos casos (36-2-2). Mejora 0 puntos.</div></div>
+<div class="qa"><div class="q">¿Y el rival con heurística?</div>
+<div class="a">Mucho: MCTS pasa de 56,3 % a 23,8 %, así que el rival mejora 32,5 puntos.</div></div>
+</div>
+
+<div class="avoid">
+<h2>E3 · la constante de exploración</h2>
+<table>
+  <tr><th>C</th><th class="v">0</th><th class="v">0,5</th><th class="v">1</th><th class="v">1,41</th><th class="v">2</th><th class="v">4</th></tr>
+  <tr><td>% contra Minimax-4</td><td class="v fill">5,0</td><td class="v fill">70,0</td><td class="v fill">57,5</td><td class="v fill">56,3</td><td class="v fill">61,3</td><td class="v fill">40,0</td></tr>
+</table>
+<div class="qa"><div class="q">¿Qué le pasa a MCTS con C = 0? ¿Y con C = 4? Un nombre para cada fallo:</div>
+<div class="a"><b>C = 0 → explotación pura</b> (avaricia, convergencia prematura): tras probar cada hijo una vez, se queda con el que tuvo suerte en su primer rollout y no vuelve a mirar los demás. Resultado: 5,0 %.<br>
+<b>C = 4 → sobreexploración</b>: reparte las visitas casi por igual entre jugadas buenas y malas, el árbol no profundiza y se comporta casi como un Monte Carlo plano. Resultado: 40,0 %.</div></div>
+</div>
+
+<div class="avoid">
+<h2>E4 · presupuesto de tiempo</h2>
+<table>
+  <tr><th>ms por jugada</th><th class="v">5</th><th class="v">10</th><th class="v">25</th><th class="v">50</th><th class="v">100</th></tr>
+  <tr><td>Iteraciones que caben (modo calibrar)</td><td class="v fill">621</td><td class="v fill">1.505</td><td class="v fill">3.410</td><td class="v fill">5.180</td><td class="v fill">12.395</td></tr>
+  <tr><td>% contra Minimax-4</td><td class="v fill">55,0</td><td class="v fill">52,5</td><td class="v fill">61,3</td><td class="v fill">72,5</td><td class="v fill">65,0</td></tr>
+</table>
+<div style="font-size:8.2pt;color:var(--ink2);margin-bottom:4px">La calibración incluida en referencia_s42.csv (filas E4cal) da 805 · 1.339 · 3.506 · 5.933 · 12.695. Las dos son medidas de reloj y por eso no coinciden exactamente; la mayor diferencia está en 5 ms (621 frente a 805), donde la medida es más sensible al ruido.</div>
+<div class="qa"><div class="q">Con 16 ms —un frame a 60 fps—, ¿cuántas iteraciones caben en vuestra máquina? Mirando E1, ¿qué porcentaje da ese presupuesto? ¿Lo pondríais en un juego?</div>
+<div class="a">Unas <b>2.300 iteraciones</b> (interpolando entre 1.505 en 10 ms y 3.410 en 25 ms). En E1, 2.000 iteraciones dan <b>56,3 % contra Minimax-4</b> y 100 % contra el aleatorio; en E4, 16 ms queda entre el 52,5 % y el 61,3 %. <b>Sí, lo pondríamos</b>: ya gana al alfa-beta-4 con heurística y es <i>anytime</i>. Pero no le daríamos el frame entero, que también necesitan el render y la lógica: repartiríamos la búsqueda en varios frames o la lanzaríamos en un hilo aparte.</div></div>
+</div>
+
+<div class="avoid">
+<h2>Opcionales realizadas</h2>
+<table>
+  <tr><th>Opción</th><th class="v" style="width:12%">Hecha</th><th>Qué salió</th></tr>
+  <tr><td>O1 reutilizar el árbol</td><td class="v">No</td><td class="blank">—</td></tr>
+  <tr><td>O2 rollout con política</td><td class="v">No</td><td class="blank">—</td></tr>
+  <tr><td>O3 Monte Carlo plano</td><td class="v">No</td><td class="blank">—</td></tr>
+  <tr><td>O4 gráficas</td><td class="v">Sí</td><td>Gráficas de E1, E3 y E4 generadas desde referencia_s42.csv (Python + matplotlib, <code>graficas.py</code>), incluidas en el informe. E1 sale creciente y E3 hundido en los dos extremos, como se esperaba. E4 tiende a crecer pero no es monótona (10 ms y 100 ms caen 2,5 y 7,5 puntos), dentro del ruido de ±8 de 40 partidas.</td></tr>
+</table>
+</div>
+
+<div class="avoid">
+<h2>Conclusión</h2>
+<div class="qa"><div class="q">¿Cuándo usaríais MCTS y cuándo alfa-beta? (cuatro líneas)</div>
+<div class="a">MCTS cuando no hay una buena función de evaluación, la ramificación es alta o hace falta una respuesta <i>anytime</i> con presupuesto variable: sin heurística, el minimax no mejora con la profundidad y MCTS le gana con un 92,5 %. Alfa-beta cuando hay una heurística fiable y el juego es táctico, de ramificación baja y con trampas cortas que los rollouts aleatorios no ven: con heurística y profundidad 6 deja a MCTS-2000 en un 23,8 %. El alfa-beta vale lo que vale su heurística; MCTS, lo que valen sus simulaciones.</div></div>
+</div>
+</body>
+</html>
